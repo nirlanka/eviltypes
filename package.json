@@ -1,0 +1,29 @@
+{
+  "name": "typebase",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nirlanka/typebase.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nirlanka/typebase/issues"
+  },
+  "homepage": "https://github.com/nirlanka/typebase#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
+  },
+  "directories": {
+    "test": "test"
+  }
+}
