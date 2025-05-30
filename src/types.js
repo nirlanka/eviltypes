@@ -3,7 +3,7 @@ import { assert } from './assert.js';
 export function assertType(instance, type) {
     assert(
         () => instance.constructor.name === type.name,
-        "the same type as expected [TypeBase]",
+        "the same type as expected [EvilTypes]",
         [instance, type]
     );
 }
@@ -26,14 +26,14 @@ export class TBase {
     _validate() {
         assert(
             () => TBase._PRIMITIVES.some(x => x === this.primitive),
-            "a valid primitive type name  [TypeBase]",
+            "a valid primitive type name  [EvilTypes]",
             [this.primitive]
         );
         assert(
             () => (this._value !== undefined)
                 ? (typeof this._value === this.primitive)
                 : true,
-            "a valid primitive type value [TypeBase]",
+            "a valid primitive type value [EvilTypes]",
             [this._value, this.primitive]
         );
 
@@ -54,7 +54,7 @@ export class TBase {
 
         assert(
             () => this.assert(this._value),
-            "a valid value [TypeBase]",
+            "a valid value [EvilTypes]",
             [this._value],
         );
     }

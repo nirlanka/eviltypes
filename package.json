@@ -1,9 +1,9 @@
 {
-  "name": "typebase",
+  "name": "eviltypes",
   "version": "1.0.0",
   "description": "A pure JS library of asserts and type class base for pure JS and JSDoc",
-  "main": "dist/typebase.bundle.js",
-  "types": "dist/typebase.d.ts",
+  "main": "dist/eviltypes.bundle.js",
+  "types": "dist/eviltypes.d.ts",
   "scripts": {
     "build": "webpack",
     "start": "webpack serve",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nirlanka/typebase.git"
+    "url": "git+https://github.com/nirlanka/eviltypes.git"
   },
-  "keywords": ["types", "javascript", "typebase"],
+  "keywords": ["types", "javascript", "eviltypes"],
   "author": "mechadino",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nirlanka/typebase/issues"
+    "url": "https://github.com/nirlanka/eviltypes/issues"
   },
-  "homepage": "https://github.com/nirlanka/typebase#readme",
+  "homepage": "https://github.com/nirlanka/eviltypes#readme",
   "devDependencies": {
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1",

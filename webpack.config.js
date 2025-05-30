@@ -6,8 +6,8 @@ module.exports = {
     mode: 'development',
     devtool: 'source-map',
     entry: {
-        'typebase': './src/index.js',
-        'typebase.tests': './tests/index.js',
+        'eviltypes': './src/index.js',
+        'eviltypes.tests': './tests/index.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -15,7 +15,7 @@ module.exports = {
 
         filename: '[name].bundle.js',
 
-        library: "typebase",
+        library: "eviltypes",
     },
     devServer: {
         static: [
