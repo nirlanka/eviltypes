@@ -1,13 +1,14 @@
 {
   "name": "eviltypes",
-  "version": "1.0.6",
+  "version": "1.0.9",
   "description": "A pure JS library of asserts and type class base for pure JS and JSDoc",
   "main": "dist/eviltypes.bundle.js",
   "types": "dist/eviltypes.d.ts",
   "scripts": {
     "build": "webpack",
     "start": "webpack serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish:version": "npm run build && npm version minor && npm publish"
   },
   "repository": {
     "type": "git",
