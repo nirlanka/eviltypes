@@ -1,8 +1,9 @@
 {
   "name": "typebase",
   "version": "1.0.0",
-  "main": "index.js",
-  "description": "",
+  "description": "A pure JS library of asserts and type class base for pure JS and JSDoc",
+  "main": "dist/typebase.bundle.js",
+  "types": "dist/typebase.d.ts",
   "scripts": {
     "build": "webpack",
     "start": "webpack serve",
@@ -12,9 +13,9 @@
     "type": "git",
     "url": "git+https://github.com/nirlanka/typebase.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["types", "javascript", "typebase"],
+  "author": "mechadino",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nirlanka/typebase/issues"
   },
