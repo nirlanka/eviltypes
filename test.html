@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Javascript Asserts and Type System</title>
+</head>
+<body style="background-color: #222; color: #fff;">
+    <h1>Test assert everywhere</h1>
+
+    <div>
+        <h2>Dropdown 1</h2>
+
+        <select name="pets" id="pet-select">
+            <option value="">--Please choose an option--</option>
+            <option value="dog">Dog</option>
+            <option value="cat">Cat</option>
+            <option value="hamster">Hamster</option>
+            <option value="parrot">Parrot</option>
+            <option value="spider">Spider</option>
+            <option value="goldfish">Goldfish</option>
+        </select>
+
+        <!-- TODO: Add stuff here -->
+    </div>
+
+    <script>
+        window.__libs__ = {};
+    </script>
+
+    <script>
+        {
+            function assert(
+                /** @type {() => boolean} */ testFn, 
+                /** @type {string} */ textOnFail,
+                /** @type {Array|Object} */ values,
+            ) {
+                try {
+                    const isTestPass = testFn();
+                    if (!isTestPass) 
+                        throw Error(`Assert failure: NOT ${textOnFail}, with debug values: ${values ? JSON.stringify(values) : testFn}`);
+                } catch (err) {
+                    console.error('[ASSERT FAILURE]', err);
+                }
+            }
+
+            window.__libs__.assert = assert;
+        }
+    </script>
+
+    <script>
+        {
+            const { assert } = window.__libs__;
+    
+            for (const value of [
+                '',
+                "test",
+                12,
+                'true',
+            ]) {
+                assert(
+                    () => ['true', 'false'].some(x => x === value), 
+                    "a proper string version of the boolean.");
+            }
+        }
+    </script>
+
+    <script>
+        {
+            const { assert } = window.__libs__;
+
+            function assertType(instance, type) {
+                assert(
+                    () => instance.constructor.name === type.name,
+                    "the same type as expected [TypeBase]",
+                    [instance, type]
+                );
+            }
+            
+            class TBase {
+                static _PRIMITIVES = [
+                    'number',
+                    'string',
+                    'object',
+                    'function',
+                ];
+
+                /** 
+                 * @abstract
+                 * @type {string}
+                 * Underlying primitive data type
+                 */
+                primitive;
+
+                _validate() {
+                    assert(
+                        () => TBase._PRIMITIVES.some(x => x === this.primitive), 
+                        "a valid primitive type name  [TypeBase]", 
+                        [this.primitive]
+                    );
+                    assert(
+                        () => (this._value !== undefined) 
+                            ? (typeof this._value === this.primitive)
+                            : true,
+                        "a valid primitive type value [TypeBase]",
+                        [this._value, this.primitive]
+                    );
+
+                    if (this.primitive === 'object') {
+                        assert(
+                            () => 
+                                (typeof this.types === 'object') 
+                                && Object.keys(this.types).every(k => typeof k === 'string')
+                                && Object.values(this.types).every(v => typeof v === 'function'),
+                            "a valid typed object",
+                            [this.types, this.primitive]
+                        );
+                        
+                        for (const k in this.types) {
+                            assertType(this._value[k], this.types[k]);
+                        }
+                    }
+                    
+                    assert(
+                        () => this.assert(this._value),
+                        "a valid value [TypeBase]",
+                        [this._value],
+                    );
+                }
+
+                /**
+                 * @type {any} 
+                 */
+                _value;
+
+                /** @final */
+                set(/** @type {any} */ v) {
+                    this._value = v;
+                    this._validate();
+                    return this;
+                }
+
+                /** 
+                 * @final
+                 * @returns {any} reference to the stored primitive value
+                 */
+                get() {
+                    this._validate();
+                    return this._value;
+                }
+
+                /**
+                 * @abstract 
+                 * @returns {boolean}
+                 */
+                assert(/** @type {any} */ value) {
+                    return true;
+                }
+            }
+
+            class TError extends TBase {
+                primitive = 'string';
+
+                assert(/** @type {string} */ value) {
+                    return !!value;
+                }
+            }
+
+            window.__libs__.TBase = TBase;
+            window.__libs__.TError = TError;
+            window.__libs__.assertType = assertType;
+        }
+    </script>
+
+    <script>
+        {
+            const { 
+                /** @type {TBase} */ TBase,
+                /** @type {TBase} */ TError, 
+                assertType,
+            } = window.__libs__;
+
+            class TWholeNumber extends TBase {
+                primitive = 'number';
+                
+                assert(value) {
+                    return value >= 0;
+                }
+            }
+
+            const x0 = new TWholeNumber();
+            console.log(x0.get());
+
+            /** @type {TWholeNumber} */
+            const x1 = new TWholeNumber().set('9');
+            console.log(x1);
+
+            /** @type {TWholeNumber} */
+            const x2 = new TWholeNumber().set(13);
+            console.log(x2);
+
+            /** @type {TWholeNumber} */
+            const x3 = new TWholeNumber().set(-4);
+            console.log(x3);
+
+            class TUnformattedText extends TBase {
+                primitive = 'string';
+
+                assert(value) {
+                    return !!value;
+                }
+            }
+
+            /** Radio component option value **/
+            class TRadioOption extends TBase {
+                primitive = 'object';
+
+                types = {
+                    'value': TWholeNumber,
+                    'label': TUnformattedText
+                };
+            }
+
+            /** @type {TRadioOption} */
+            const x4 = new TRadioOption().set({
+                value: new TWholeNumber().set(0),
+                label: new TUnformattedText().set("Option 0"),
+            });
+            console.log(x4);
+            console.log(x4.get().value);
+            console.log(x4.get().value.get());
+
+            /** @type {TRadioOption} */
+            const x5 = new TRadioOption().set({
+                value: new TWholeNumber().set(-1),
+                label: new TUnformattedText().set("[Please select]"),
+            });
+            console.log(x5);
+            console.log(x5.get().value);
+            console.log(x5.get().value.get());
+
+            /** @returns {[TWholeNumber, TError]} */
+            function getOptionValue(/** @type {HTMLSelectElement} */ selectEl) {
+                assert(() => !isNaN(selectEl.value), "a whole number", [selectEl.value]);
+
+                return [
+                    selectEl.value && new TWholeNumber().set(selectEl.value),
+                    !selectEl.value && new TError().set("No option selected")
+                ];
+            }
+
+            const [x6, err6] = getOptionValue(document.querySelector('#pet-select'));
+            console.log(x6, err6);
+
+            if (err6) {
+                console.error('Error:', err6.get())
+            }
+        }
+    </script>
+</body>
+</html>
