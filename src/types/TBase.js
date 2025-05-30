@@ -1,12 +1,5 @@
-import { assert } from './assert.js';
-
-export function assertType(instance, type) {
-    assert(
-        () => instance.constructor.name === type.name,
-        "the same type as expected [EvilTypes]",
-        [instance, type]
-    );
-}
+import { assertPrimitive } from "../utils/assertPrimitive";
+import { assertTypePrimitive } from "../utils/assertTypePrimitive";
 
 export class TBase {
     static _PRIMITIVES = [
@@ -24,12 +17,12 @@ export class TBase {
     primitive;
 
     _validate() {
-        assert(
+        assertPrimitive(
             () => TBase._PRIMITIVES.some(x => x === this.primitive),
-            "a valid primitive type name  [EvilTypes]",
+            "a valid primitive type name [EvilTypes]",
             [this.primitive]
         );
-        assert(
+        assertPrimitive(
             () => (this._value !== undefined)
                 ? (typeof this._value === this.primitive)
                 : true,
@@ -38,7 +31,7 @@ export class TBase {
         );
 
         if (this.primitive === 'object') {
-            assert(
+            assertPrimitive(
                 () =>
                     (typeof this.types === 'object')
                     && Object.keys(this.types).every(k => typeof k === 'string')
@@ -48,11 +41,11 @@ export class TBase {
             );
 
             for (const k in this.types) {
-                assertType(this._value[k], this.types[k]);
+                assertTypePrimitive(this._value[k], this.types[k]);
             }
         }
 
-        assert(
+        assertPrimitive(
             () => this.assert(this._value),
             "a valid value [EvilTypes]",
             [this._value],
@@ -86,13 +79,5 @@ export class TBase {
      */
     assert(/** @type {any} */ value) {
         return true;
-    }
-}
-
-export class TError extends TBase {
-    primitive = 'string';
-
-    assert(/** @type {string} */ value) {
-        return !!value;
     }
 }

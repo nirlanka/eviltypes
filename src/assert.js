@@ -1,13 +1,14 @@
+import { TError } from "./types/TError";
+import { assertPrimitive } from "./utils/assertPrimitive";
+
+/**
+ * @returns {TError}
+ */
 export function assert(
-                /** @type {() => boolean} */ testFn,
-                /** @type {string} */ textOnFail,
-                /** @type {Array|Object} */ values,
+    /** @type {() => boolean} */ testFn,
+    /** @type {string} */ textOnFail,
+    /** @type {Array|Object} */ values,
 ) {
-    try {
-        const isTestPass = testFn();
-        if (!isTestPass)
-            throw Error(`Assert failure: NOT ${textOnFail}, with debug values: ${values ? JSON.stringify(values) : testFn}`);
-    } catch (err) {
-        console.error('[ASSERT FAILURE]', err);
-    }
+    const err = assertPrimitive(testFn, textOnFail, values);
+    return new TError().set(`[ASSERT FAILURE] ${err}`);
 }

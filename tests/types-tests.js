@@ -37,7 +37,7 @@ class TUnformattedText extends TBase {
 }
 
 /** Radio component option value **/
-class TRadioOption extends TBase {
+class TNumericRadioOption extends TBase {
     primitive = 'object';
 
     types = {
@@ -46,8 +46,8 @@ class TRadioOption extends TBase {
     };
 }
 
-/** @type {TRadioOption} */
-const x4 = new TRadioOption().set({
+/** @type {TNumericRadioOption} */
+const x4 = new TNumericRadioOption().set({
     value: new TWholeNumber().set(0),
     label: new TUnformattedText().set("Option 0"),
 });
@@ -55,8 +55,8 @@ console.log(x4);
 console.log(x4.get().value);
 console.log(x4.get().value.get());
 
-/** @type {TRadioOption} */
-const x5 = new TRadioOption().set({
+/** @type {TNumericRadioOption} */
+const x5 = new TNumericRadioOption().set({
     value: new TWholeNumber().set(-1),
     label: new TUnformattedText().set("[Please select]"),
 });
@@ -80,3 +80,12 @@ console.log(x6, err6);
 if (err6) {
     console.error('Error:', err6.get())
 }
+
+function onSelect(/** @type {Event} */ ev) {
+    assert(() => ev.type === 'change', "has correct event type", [ev.type]);
+    assert(() => ev.target.id === 'pet-select', "has correct target element 'change'", [ev.target.id]);
+
+    const [optionValue, err] = getOptionValue(ev.target);
+}
+
+document.querySelector('#pet-select').addEventListener('change', onSelect);
