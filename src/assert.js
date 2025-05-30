@@ -10,5 +10,5 @@ export function assert(
     /** @type {Array|Object} */ values,
 ) {
     const err = assertPrimitive(testFn, textOnFail, values);
-    return new TError().set(`[ASSERT FAILURE] ${err}`);
+    return err ? new TError().set(`[ASSERT FAILURE] ${err}`) : undefined;
 }

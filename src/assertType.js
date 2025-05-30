@@ -8,7 +8,7 @@ export function assertType(
     /** @type {class} */ type,
 ) {
     const err = assertTypePrimitive(instance, type);
-    return new TError().set(`[ASSERT FAILURE] ${err}`);
+    return err ? new TError().set(`[ASSERT FAILURE] ${err}`) : undefined;
 }
 
 

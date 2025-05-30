@@ -1,8 +1,8 @@
 import {
     assert,
+    assertType,
     TBase,
     TError,
-    assertType,
 } from '../src';
 
 class TWholeNumber extends TBase {
@@ -66,11 +66,11 @@ console.log(x5.get().value.get());
 
 /** @returns {[TWholeNumber, TError]} */
 function getOptionValue(/** @type {HTMLSelectElement} */ selectEl) {
-    assert(() => !isNaN(selectEl.value), "a whole number", [selectEl.value]);
+    let error = assert(() => !isNaN(selectEl.value), "a whole number", [selectEl.value]);
 
     return [
-        selectEl.value && new TWholeNumber().set(selectEl.value),
-        !selectEl.value && new TError().set("No option selected")
+        selectEl.value ? new TWholeNumber().set(selectEl.value) : undefined,
+        selectEl.value ? undefined : new TError().set("No option selected")
     ];
 }
 
@@ -86,6 +86,8 @@ function onSelect(/** @type {Event} */ ev) {
     assert(() => ev.target.id === 'pet-select', "has correct target element 'change'", [ev.target.id]);
 
     const [optionValue, err] = getOptionValue(ev.target);
+    console.log(optionValue);
+    console.log(err);
 }
 
 document.querySelector('#pet-select').addEventListener('change', onSelect);
