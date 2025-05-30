@@ -5,7 +5,7 @@
   "main": "dist/eviltypes.bundle.js",
   "types": "dist/eviltypes.d.ts",
   "scripts": {
-    "build": "webpack",
+    "build": "cp src/eviltypes.d.ts dist/ && webpack",
     "start": "webpack serve",
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish:patch": "npm run build && npm version patch && npm publish",
