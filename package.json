@@ -5,6 +5,7 @@
   "description": "",
   "scripts": {
     "build": "webpack",
+    "start": "webpack serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,10 +19,10 @@
     "url": "https://github.com/nirlanka/typebase/issues"
   },
   "homepage": "https://github.com/nirlanka/typebase#readme",
-  "dependencies": {},
   "devDependencies": {
     "webpack": "^5.99.9",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1"
   },
   "directories": {
     "test": "test"
