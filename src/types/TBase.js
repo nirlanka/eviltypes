@@ -16,6 +16,11 @@ export class TBase {
      */
     primitive;
 
+    /**
+     * @type {Record<string, new (...args: any[]) => TBase<any>>}
+     */
+    types;
+
     _validate() {
         assertPrimitive(
             () => TBase._PRIMITIVES.some(x => x === this.primitive),

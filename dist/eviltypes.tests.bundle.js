@@ -57,8 +57,6 @@ function assertType(
 }
 
 
-
-
 /***/ }),
 
 /***/ "./src/index.js":
@@ -115,6 +113,11 @@ class TBase {
      * Underlying primitive data type
      */
     primitive;
+
+    /**
+     * @type {Record<string, new (...args: any[]) => TBase<any>>}
+     */
+    types;
 
     _validate() {
         (0,_utils_assertPrimitive__WEBPACK_IMPORTED_MODULE_0__.assertPrimitive)(
@@ -369,7 +372,8 @@ function getOptionValue(/** @type {HTMLSelectElement} */ selectEl) {
 
     return [
         selectEl.value ? new TWholeNumber().set(selectEl.value) : undefined,
-        selectEl.value ? undefined : new _src__WEBPACK_IMPORTED_MODULE_0__.TError().set("No option selected")
+        error 
+            || (selectEl.value ? undefined : new _src__WEBPACK_IMPORTED_MODULE_0__.TError().set("No option selected")),
     ];
 }
 

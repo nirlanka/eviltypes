@@ -70,7 +70,8 @@ function getOptionValue(/** @type {HTMLSelectElement} */ selectEl) {
 
     return [
         selectEl.value ? new TWholeNumber().set(selectEl.value) : undefined,
-        selectEl.value ? undefined : new TError().set("No option selected")
+        error 
+            || (selectEl.value ? undefined : new TError().set("No option selected")),
     ];
 }
 

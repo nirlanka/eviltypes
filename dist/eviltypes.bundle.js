@@ -57,8 +57,6 @@ function assertType(
 }
 
 
-
-
 /***/ }),
 
 /***/ "./src/types/TBase.js":
@@ -90,6 +88,11 @@ class TBase {
      * Underlying primitive data type
      */
     primitive;
+
+    /**
+     * @type {Record<string, new (...args: any[]) => TBase<any>>}
+     */
+    types;
 
     _validate() {
         (0,_utils_assertPrimitive__WEBPACK_IMPORTED_MODULE_0__.assertPrimitive)(
