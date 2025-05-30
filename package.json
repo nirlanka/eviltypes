@@ -1,6 +1,6 @@
 {
   "name": "eviltypes",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "A pure JS library of asserts and type class base for pure JS and JSDoc",
   "main": "dist/eviltypes.bundle.js",
   "types": "dist/eviltypes.d.ts",
@@ -14,7 +14,11 @@
     "type": "git",
     "url": "git+https://github.com/nirlanka/eviltypes.git"
   },
-  "keywords": ["types", "javascript", "eviltypes"],
+  "keywords": [
+    "types",
+    "javascript",
+    "eviltypes"
+  ],
   "author": "mechadino",
   "license": "MIT",
   "bugs": {
