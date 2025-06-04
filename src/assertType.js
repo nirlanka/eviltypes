@@ -5,8 +5,8 @@ import { assertTypePrimitive } from './utils/assertTypePrimitive';
  */
 export function assertType(
     /** @type {TBase} */ instance,
-    /** @type {class} */ type,
+    /** @type {typeof TBase} */ type,
 ) {
     const err = assertTypePrimitive(instance, type);
-    return err ? new TError().set(`[ASSERT FAILURE] ${err}`) : undefined;
+    return err ? new TError().set(err) : undefined;
 }

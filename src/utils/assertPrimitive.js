@@ -1,20 +1,16 @@
 /**
  * @returns {Error}
  */
-export function assertPrimitive(
-    /** @type {() => boolean} */ testFn,
-    /** @type {string} */ textOnFail,
-    /** @type {Array|Object} */ values,
-) {
+export function assertPrimitive(/** @type {() => Boolean} */ testFn) {
     let err;
 
     try {
         const isTestPass = testFn();
         if (!isTestPass)
-            throw Error(`Assert failure: NOT ${textOnFail}, with debug values: ${values ? JSON.stringify(values) : testFn}`);
+            throw Error(`Assert failure: ${testFn}`);
     } catch (_err) {
         err = _err;
-        console.error(`[ASSERT FAILURE] ${err}`);
+        err = Error(`[ASSERT FAILURE]`);
     }
 
     return err;

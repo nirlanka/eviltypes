@@ -1,88 +1,42 @@
-import { assertPrimitive } from "../utils/assertPrimitive";
 import { assertTypePrimitive } from "../utils/assertTypePrimitive";
 
 export class TBase {
-    static _PRIMITIVES = [
-        'number',
-        'string',
-        'object',
-        'function',
-    ];
-
     /** 
      * @abstract
-     * @type {string}
-     * Underlying primitive data type
+     * @type {typeof TBase}
      */
-    primitive;
+    _primitive;
 
     /**
-     * @type {Record<string, new (...args: any[]) => TBase<any>>}
+     * @abstract
+     * @type {Record<string, new (...args: TBase[]) => TBase>}
      */
-    types;
-
-    _validate() {
-        assertPrimitive(
-            () => TBase._PRIMITIVES.some(x => x === this.primitive),
-            "a valid primitive type name [EvilTypes]",
-            [this.primitive]
-        );
-        assertPrimitive(
-            () => (this._value !== undefined)
-                ? (typeof this._value === this.primitive)
-                : true,
-            "a valid primitive type value [EvilTypes]",
-            [this._value, this.primitive]
-        );
-
-        if (this.primitive === 'object') {
-            assertPrimitive(
-                () =>
-                    (typeof this.types === 'object')
-                    && Object.keys(this.types).every(k => typeof k === 'string')
-                    && Object.values(this.types).every(v => typeof v === 'function'),
-                "a valid typed object",
-                [this.types, this.primitive]
-            );
-
-            for (const k in this.types) {
-                assertTypePrimitive(this._value[k], this.types[k]);
-            }
-        }
-
-        assertPrimitive(
-            () => this.assert(this._value),
-            "a valid value [EvilTypes]",
-            [this._value],
-        );
-    }
+    types = {};
 
     /**
+     * @abstract
      * @type {any} 
      */
-    _value;
+    _value = null;
 
     /** @final */
-    set(/** @type {any} */ v) {
-        this._value = v;
-        this._validate();
+    set(/** @type {TBase} */ value) {
+        this.assert(value);
+
+        this._value = value;
         return this;
     }
 
     /** 
      * @final
-     * @returns {any} reference to the stored primitive value
+     * @returns {TBase}
      */
     get() {
-        this._validate();
         return this._value;
     }
 
-    /**
-     * @abstract 
-     * @returns {boolean}
-     */
-    assert(/** @type {any} */ value) {
-        return true;
+    /** @abstract */
+    assert(/** @type {TBase} */ value) {
+        assertTypePrimitive(value, this._primitive);
     }
 }

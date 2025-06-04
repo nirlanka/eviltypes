@@ -1,6 +1,6 @@
 const { watchFile } = require('fs');
 const path = require('path');
-const { library } = require('webpack');
+const { library, DefinePlugin } = require('webpack');
 
 module.exports = {
     mode: 'development',
@@ -31,4 +31,10 @@ module.exports = {
         hot: true, // hot module replacement
         liveReload: true, // fallback - live reload if HMR not supported
     },
+    plugins: [
+        new DefinePlugin({
+            __DEV_DEBUG_TESTS__: JSON.stringify(false), // true - skip over assert errors
+            // __DEV_DEBUG_TESTS__: JSON.stringify(true), // true - skip over assert errors
+        })
+    ],
 };

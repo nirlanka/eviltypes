@@ -1,15 +1,15 @@
 import {
     assert,
-    assertType,
-    TBase,
     TError,
+    TBaseInteger,
+    TBaseString,
+    TBaseObject
 } from '../src';
 
-class TWholeNumber extends TBase {
-    primitive = 'number';
-
+class TWholeNumber extends TBaseInteger {
     assert(value) {
-        return value >= 0;
+        super.assert(value);
+        assert(() => value >= 0);
     }
 }
 
@@ -28,18 +28,15 @@ console.log(x2);
 const x3 = new TWholeNumber().set(-4);
 console.log(x3);
 
-class TUnformattedText extends TBase {
-    primitive = 'string';
-
+class TUnformattedText extends TBaseString {
     assert(value) {
-        return !!value;
+        super.assert(this);
+        assert(() => !!value);
     }
 }
 
 /** Radio component option value **/
-class TNumericRadioOption extends TBase {
-    primitive = 'object';
-
+class TNumericRadioOption extends TBaseObject {
     types = {
         'value': TWholeNumber,
         'label': TUnformattedText

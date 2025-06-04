@@ -6,7 +6,5 @@ for (const value of [
     12,
     'true',
 ]) {
-    assert(
-        () => ['true', 'false'].some(x => x === value),
-        "a proper string version of the boolean.");
+    assert(() => ['true', 'false'].some(x => x === value));
 }
