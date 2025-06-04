@@ -6,7 +6,7 @@ export function assert(/** @type {() => Boolean} */ testFn) {
     if (err) {
         const errToThrow = (new TError()).set(err);
         if (__DEV_DEBUG_TESTS__) {
-            console.error(errToThrow.get().message);
+            console.error(errToThrow.get());
             return;
         }
 

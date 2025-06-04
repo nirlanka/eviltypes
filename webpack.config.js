@@ -39,6 +39,10 @@ module.exports = (env, argv) => {
             new DefinePlugin({
                 __DEV_DEBUG_TESTS__: JSON.stringify(true), // true - skip over assert errors
             })
-        ] : [],
+        ] : [
+            new DefinePlugin({
+                __DEV_DEBUG_TESTS__: JSON.stringify(false), // true - skip over assert errors
+            })
+        ],
     };
 };

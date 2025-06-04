@@ -13,5 +13,5 @@ export function assertPrimitive(/** @type {() => Boolean} */ testFn) {
         err = Error(`[ASSERT FAILURE]`);
     }
 
-    return err;
+    return err && err.message;
 }
